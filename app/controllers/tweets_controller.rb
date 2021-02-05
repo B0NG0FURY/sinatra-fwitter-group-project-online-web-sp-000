@@ -8,11 +8,26 @@ class TweetsController < ApplicationController
         end
     end
 
+    get '/tweets/new' do
+        @user = current_user
+        if @user
+            erb :"/tweets/new"
+        end
+    end
+
     get '/tweets/:id' do
         @user = current_user
         if @user
             @tweet = Tweet.find(params[:id])
             erb :"/tweets/show"
+        end
+    end
+
+    get '/tweets/:id/edit' do
+        @user = current_user
+        if @user
+            @tweet = Tweet.find(params[:id])
+            erb :"/tweets/edit"
         end
     end
 
