@@ -7,6 +7,17 @@ class UsersController < ApplicationController
         end
     end
 
+    post '/user' do
+        user = User.find_by(username: params[:username])
+        if user && user.authenticate(params[:password])
+            session[:user_id] = user.id
+            redirect '/user'
+        else
+            flash[:error] = "The username or password is incorrect."
+            redirect '/user/login'
+        end
+    end
+
     get '/user/new' do
         erb :"/users/new"
     end
