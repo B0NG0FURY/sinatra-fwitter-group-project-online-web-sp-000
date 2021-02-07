@@ -4,6 +4,8 @@ class UsersController < ApplicationController
         @user = current_user
         if @user
             erb :"/users/index"
+        else
+            erb :error
         end
     end
 
@@ -43,6 +45,11 @@ class UsersController < ApplicationController
         erb :"/users/login"
     end
 
+    get '/user/logout' do
+        session.clear
+        redirect '/user/login'
+    end
+
     helpers do
 
         def form_filled?
@@ -54,7 +61,7 @@ class UsersController < ApplicationController
         end
 
         def user_exists?(name)
-            User.find_by(name: name)
+            User.find_by(username: name)
         end
 
     end

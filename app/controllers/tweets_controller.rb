@@ -5,6 +5,8 @@ class TweetsController < ApplicationController
         if @user
             @tweets = Tweet.all
             erb :"/tweets/index"
+        else
+            erb :error
         end
     end
 
@@ -12,6 +14,8 @@ class TweetsController < ApplicationController
         @user = current_user
         if @user
             erb :"/tweets/new"
+        else
+            erb :"/tweets/error"
         end
     end
 
