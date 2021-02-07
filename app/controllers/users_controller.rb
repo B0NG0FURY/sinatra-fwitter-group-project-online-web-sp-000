@@ -12,7 +12,20 @@ class UsersController < ApplicationController
     end
 
     post '/user/new' do
-
+        if form_filled? && password_verified? && !user_exists?(params[:user][:username])
+            user = User.create(params[:user])
+            session[:user_id] = user.id
+            redirect '/user'
+        elsif form_filled? && !password_verified && !user_exists?(params[:user][:username])
+            flash[:error] = "Passwords entered do not match. Please try again."
+            redirect '/user/new'
+        elsif form_filled? && user_exists?(params[:user][:username])
+            flash[:error] = "That username already exists. Try again."
+            redirect '/user/new'
+        elsif !form_filled?
+            flash[:error] = "One or more forms not completed. Please completely fill out all forms to create account."
+            redirect '/user/new'
+        end
     end
 
     get '/user/login' do
@@ -27,6 +40,10 @@ class UsersController < ApplicationController
 
         def password_verified?
             params[:user][:password] == params[:password_verify]
+        end
+
+        def user_exists?(name)
+            User.find_by(name: name)
         end
 
     end
