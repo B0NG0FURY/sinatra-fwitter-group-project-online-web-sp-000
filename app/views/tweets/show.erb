@@ -1,0 +1,9 @@
+<h3>Tweet by <%= @tweet.user.username %></h3>
+<p><%= @tweet.content %></p>
+<br><br>
+
+<% if @tweet.user == @user %>
+<a href="/tweets/<%= @tweet.id %>/edit">Edit</a>
+<% end %>
+<a href="/tweets">Tweets</a>
+<a href="/user/logout">Logout</a>
