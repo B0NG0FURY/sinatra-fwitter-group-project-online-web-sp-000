@@ -10,6 +10,19 @@ class TweetsController < ApplicationController
         end
     end
 
+    post '/tweets' do
+        user = current_user
+        if !params[:content].empty?
+            tweet = Tweet.create(content: params[:content])
+            tweet.user = user
+            tweet.save
+            redirect "/tweets/#{tweet.id}"
+        else
+            flash[:error] = "Cannot create blank tweet. Please try again."
+            redirect '/tweets/new'
+        end
+    end
+
     get '/tweets/new' do
         @user = current_user
         if @user
