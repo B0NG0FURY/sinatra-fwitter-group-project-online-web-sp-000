@@ -1,5 +1,9 @@
 <h2>Tweets</h2>
-<br><br>
 
+<% @tweets.each do |tweet| %>
+    <h4><%= tweet.user.username %></h4>
+    <a href="/tweets/<%= tweet.id %>"><%= tweet.content %></a>
+<% end %>
+<br><br><br>
 
 <a href="/user/logout">Logout</a>

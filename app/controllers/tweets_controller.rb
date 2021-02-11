@@ -3,7 +3,7 @@ class TweetsController < ApplicationController
     get '/tweets' do
         @user = current_user
         if @user
-            @tweets = Tweet.all
+            @tweets = Tweet.all.reverse
             erb :"/tweets/index"
         else
             erb :error
@@ -44,9 +44,12 @@ class TweetsController < ApplicationController
 
     get '/tweets/:id/edit' do
         @user = current_user
-        if @user
-            @tweet = Tweet.find(params[:id])
+        @tweet = Tweet.find(params[:id])
+        if @user.id == @tweet.user.id
             erb :"/tweets/edit"
+        else
+            flash[:error] = "You can only edit your own tweets."
+            redirect '/tweets'
         end
     end
 
